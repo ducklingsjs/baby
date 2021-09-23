@@ -11,13 +11,57 @@
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/posenet"></script>
 
+    <script type="text/javascript">
+      function changeClass(newClass) {
+        const canvasElement = document.getElementById("threeContainer");
+        const audioElement = document.getElementById(`${newClass}-audio`);
+
+        canvasElement.classList = "canvas";
+        canvasElement.classList.add(newClass);
+        console.log(audioElement);
+
+        var sounds = document.getElementsByTagName("audio");
+        for (i = 0; i < sounds.length; i++) sounds[i].pause();
+
+        audioElement.play();
+      }
+    </script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   </head>
   <body>
+    <button onClick="changeClass('barn-dance')">Barn dance</button>
+    <button onClick="changeClass('disco')">Disco</button>
+    <button onClick="changeClass('berlin')">Berlin basement</button>
+    <button onClick="changeClass('balkan')">Balkan</button>
+    <button onClick="changeClass('balkan-kafana')">
+      Balkan kafana specijal
+    </button>
+
     <div class="camera">
       <video id="camera" playsinline></video>
       <canvas id="output" />
     </div>
+
+    <audio id="barn-dance-audio">
+      <source src="./assets/barn-dance.mp3" type="audio/mp3" />
+    </audio>
+
+    <audio id="disco-audio">
+      <source src="./assets/disco.mp3" type="audio/mp3" />
+    </audio>
+
+    <audio id="berlin-audio">
+      <source src="./assets/berlin.mp3" type="audio/mp3" />
+    </audio>
+
+    <audio id="balkan-audio">
+      <source src="./assets/balkan.mp3" type="audio/mp3" />
+    </audio>
+
+    <audio id="balkan-kafana-audio">
+      <source src="./assets/balkan-kafana.mp3" type="audio/mp3" />
+    </audio>
 
     <div class="canvas" id="threeContainer"></div>
 

@@ -37,4 +37,8 @@ async function main() {
   requestAnimationFrame(main);
 }
 
+function changeClass(newClass) {
+  console.log(newClass);
+}
+
 main();
