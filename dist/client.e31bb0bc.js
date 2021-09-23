@@ -250,8 +250,8 @@ function Entity(group, name) {
     var textureLoader = new THREE.TextureLoader();
     textureLoader.setCrossOrigin("*");
     var texture = textureLoader.load("brad_pitt2.94ce350a.png");
-    texture.center.set(0.65, 0.5);
-    texture.repeat.set(1.1, 1);
+    texture.center.set(0.67, 0.5);
+    texture.repeat.set(2, 1.2);
     texture.rotation = Math.PI;
     material = new THREE.MeshStandardMaterial({
       map: texture
