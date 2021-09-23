@@ -1,0 +1,50 @@
+html,
+body {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.camera {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  top: 0;
+  right: 0;
+  background-color: black;
+}
+
+.canvas {
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: block;
+}
+
+.barn-dance {
+  background-image: url("/barn-dance.de6d4a95.jpeg");
+  background-position: 0 -20px;
+}
+
+.disco {
+  background-image: url("/disco.ba9a5322.jpeg");
+  background-position: 0 -120px;
+}
+
+.berlin {
+  background-image: url("/berlin.6e3ae26f.jpeg");
+  background-position: 0 -120px;
+}
+
+.balkan {
+  background-image: url("/balkan.ec26d930.png");
+}
+.balkan-kafana {
+  background-image: url("/balkan-kafana.1012bd0e.jpg");
+  background-position: 0 -120px;
+}
+
+
+/*# sourceMappingURL=/style.e308ff8e.css.map */

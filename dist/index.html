@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Diskoteka</title>
+
+    <link rel="stylesheet" href="/style.e308ff8e.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/posenet"></script>
+
+    <script>function changeClass(newClass) {
+  var canvasElement = document.getElementById("threeContainer");
+  var audioElement = document.getElementById("".concat(newClass, "-audio"));
+  canvasElement.classList = "canvas";
+  canvasElement.classList.add(newClass);
+  console.log(audioElement);
+  var sounds = document.getElementsByTagName("audio");
+
+  for (i = 0; i < sounds.length; i++) {
+    sounds[i].pause();
+  }
+
+  audioElement.play();
+}</script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="/style.e308ff8e.js"></script></head>
+  <body>
+    <button onClick="changeClass('barn-dance')">Barn dance</button>
+    <button onClick="changeClass('disco')">Disco</button>
+    <button onClick="changeClass('berlin')">Berlin basement</button>
+    <button onClick="changeClass('balkan')">Balkan</button>
+    <button onClick="changeClass('balkan-kafana')">
+      Balkan kafana specijal
+    </button>
+
+    <div class="camera">
+      <video id="camera" playsinline=""></video>
+      <canvas id="output">
+    </canvas></div>
+
+    <audio id="barn-dance-audio">
+      <source src="/barn-dance.7ce95b78.mp3" type="audio/mp3">
+    </audio>
+
+    <audio id="disco-audio">
+      <source src="/disco.b82cd659.mp3" type="audio/mp3">
+    </audio>
+
+    <audio id="berlin-audio">
+      <source src="/berlin.958ddfd3.mp3" type="audio/mp3">
+    </audio>
+
+    <audio id="balkan-audio">
+      <source src="/balkan.8faab359.mp3" type="audio/mp3">
+    </audio>
+
+    <audio id="balkan-kafana-audio">
+      <source src="/balkan-kafana.87978427.mp3" type="audio/mp3">
+    </audio>
+
+    <div class="canvas barn-dance" id="threeContainer"></div>
+
+    <script src="/client.e31bb0bc.js"></script>
+  </body>
+</html>

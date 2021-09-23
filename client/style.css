@@ -18,7 +18,6 @@ body {
 .canvas {
   width: 100%;
   height: 100%;
-  background-image: url("/assets/kafana.jpeg");
   background-repeat: no-repeat;
   background-size: cover;
   display: block;
@@ -26,16 +25,23 @@ body {
 
 .barn-dance {
   background-image: url("/assets/barn-dance.jpeg");
+  background-position: 0 -20px;
 }
 
 .disco {
-  background-image: url("/assets/kafana.jpeg");
+  background-image: url("/assets/disco.jpeg");
+  background-position: 0 -120px;
 }
 
 .berlin {
   background-image: url("/assets/berlin.jpeg");
+  background-position: 0 -120px;
 }
 
 .balkan {
-  background-image: url("/assets/balkan.jpeg");
+  background-image: url("/assets/balkan.png");
+}
+.balkan-kafana {
+  background-image: url("/assets/balkan-kafana.jpg");
+  background-position: 0 -120px;
 }
