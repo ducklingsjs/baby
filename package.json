@@ -23,6 +23,7 @@
     "parcel-bundler": "^1.12.5"
   },
   "dependencies": {
+    "assets": "^3.0.1",
     "express": "^4.17.1",
     "socket.io": "^4.2.0"
   }

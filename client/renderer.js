@@ -13,7 +13,7 @@ export function setupRenderer(containerId) {
   const container = document.getElementById(containerId);
   container.appendChild(renderer.domElement);
 
-  const hemiLight = new THREE.HemisphereLight("#EFF6EE", "#EFF6EE", 0);
+  const hemiLight = new THREE.HemisphereLight("#EFF6EE", "#EFF6EE", 1);
   hemiLight.position.set(0, 0, 0);
   scene.add(hemiLight);
 

@@ -1,22 +1,55 @@
 import { loadVideo } from "./camera";
 import { setupRenderer } from "./renderer";
-import { Person } from "./person";
+import { Entity } from "./entity";
+
+import poseExample from "../init_pose.json";
 
 loadVideo();
 const { renderer, scene, camera } = setupRenderer("threeContainer");
 
+const bodyParts = [
+  "nose",
+  "leftShoulder",
+  "rightShoulder",
+  "leftElbow",
+  "rightElbow",
+  "leftWrist",
+  "rightWrist",
+  "leftHip",
+  "rightHip",
+  "leftKnee",
+  "rightKnee",
+  "leftAnkle",
+  "rightAnkle",
+];
+
 const group = new THREE.Group();
 scene.add(group);
 
-let trackers = [];
+let trackers2 = {
+  nose: {},
+  leftShoulder: {},
+  rightShoulder: {},
+  leftElbow: {},
+  rightElbow: {},
+  leftWrist: {},
+  rightWrist: {},
+  leftHip: {},
+  rightHip: {},
+  leftKnee: {},
+  rightKnee: {},
+  leftAnkle: {},
+  rightAnkle: {},
+};
 
-for (let i = 0; i < 17; i++) {
-  let tracker = new Person(group);
+bodyParts.forEach((item) => {
+  let tracker = new Entity(group, item);
   tracker.initialise();
+  tracker.update(poseExample[item].x, poseExample[item].y, 0);
   tracker.display();
 
-  trackers.push(tracker);
-}
+  trackers2[item] = tracker;
+});
 
 // main render loop
 async function main() {
@@ -27,10 +60,12 @@ async function main() {
   const poses = await net.estimateSinglePose(video);
 
   if (poses.score > 0.8) {
-    poses.keypoints.forEach((d, i) => {
-      trackers[i].update(d.position.x * 1, d.position.y * 1, 0);
-      trackers[i].display();
-    });
+    poses.keypoints
+      .filter((item) => bodyParts.includes(item.part))
+      .forEach((d, i) => {
+        trackers2[d.part].update(d.position.x * 1, d.position.y * 1, 0);
+        trackers2[d.part].display();
+      });
   }
 
   renderer.render(scene, camera);
