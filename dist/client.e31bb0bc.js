@@ -222,7 +222,7 @@ function setupRenderer(containerId) {
   renderer.setSize(width, height);
   var container = document.getElementById(containerId);
   container.appendChild(renderer.domElement);
-  var hemiLight = new THREE.HemisphereLight("#EFF6EE", "#EFF6EE", 0);
+  var hemiLight = new THREE.HemisphereLight("#EFF6EE", "#EFF6EE", 1);
   hemiLight.position.set(0, 0, 0);
   scene.add(hemiLight);
   return {
@@ -231,25 +231,39 @@ function setupRenderer(containerId) {
     camera: camera
   };
 }
-},{}],"person.js":[function(require,module,exports) {
+},{}],"entity.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Person = Person;
+exports.Entity = Entity;
 var X_OFFSET = 700;
 var Y_OFFSET = 400;
 
-function Person(group) {
+function Entity(group, name) {
   this.position = new THREE.Vector3();
-  var geometry = new THREE.SphereGeometry(10, 7, 7);
-  var material = new THREE.MeshToonMaterial({
-    color: "blue",
-    opacity: 0.5,
-    emissive: 0xeff6ee,
-    emissiveIntensity: 1
-  });
+  var geometry;
+  var material;
+
+  if (name === "nose") {
+    var textureLoader = new THREE.TextureLoader();
+    textureLoader.setCrossOrigin("*");
+    var texture = textureLoader.load("brad_pitt2.94ce350a.png");
+    texture.center.set(0.65, 0.5);
+    texture.repeat.set(1.1, 1);
+    texture.rotation = Math.PI;
+    material = new THREE.MeshStandardMaterial({
+      map: texture
+    });
+    geometry = new THREE.SphereGeometry(35, 30, 10);
+  } else {
+    material = new THREE.MeshLambertMaterial({
+      color: "white"
+    });
+    geometry = new THREE.SphereGeometry(15, 7, 7);
+  }
+
   var sphere = new THREE.Mesh(geometry, material);
   group.add(sphere);
 
@@ -261,7 +275,7 @@ function Person(group) {
 
   this.update = function (x, y, z) {
     this.position.x = X_OFFSET + x;
-    this.position.y = Y_OFFSET + y;
+    this.position.y = Y_OFFSET + y + (name === "nose" ? -20 : 0);
     this.position.z = z;
   };
 
@@ -271,6 +285,61 @@ function Person(group) {
     sphere.position.z = this.position.z;
   };
 }
+},{}],"../init_pose.json":[function(require,module,exports) {
+module.exports = {
+  "nose": {
+    "x": 213.22621683202365,
+    "y": 126.43864295454804
+  },
+  "leftShoulder": {
+    "x": 252.00055786607794,
+    "y": 154.0601753205177
+  },
+  "rightShoulder": {
+    "x": 189.48718119224222,
+    "y": 162.95227899811147
+  },
+  "leftElbow": {
+    "x": 295.841031798129,
+    "y": 115.34358985693073
+  },
+  "rightElbow": {
+    "x": 143.64475591637282,
+    "y": 130.15710677803722
+  },
+  "leftWrist": {
+    "x": 273.13961400132234,
+    "y": 62.68592242229773
+  },
+  "rightWrist": {
+    "x": 136.10733477521964,
+    "y": 72.70538033214524
+  },
+  "leftHip": {
+    "x": 257.28767840314936,
+    "y": 279.5567906004909
+  },
+  "rightHip": {
+    "x": 208.08698869400916,
+    "y": 284.56563767013847
+  },
+  "leftKnee": {
+    "x": 288.21989660597035,
+    "y": 365.03735701861547
+  },
+  "rightKnee": {
+    "x": 170.95049015742796,
+    "y": 365.0344246593431
+  },
+  "leftAnkle": {
+    "x": 282.5054925703353,
+    "y": 438.4625009024653
+  },
+  "rightAnkle": {
+    "x": 149.81121582743722,
+    "y": 439.0906354852223
+  }
+};
 },{}],"index.js":[function(require,module,exports) {
 "use strict";
 
@@ -278,7 +347,11 @@ var _camera = require("./camera");
 
 var _renderer = require("./renderer");
 
-var _person = require("./person");
+var _entity = require("./entity");
+
+var _init_pose = _interopRequireDefault(require("../init_pose.json"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -291,17 +364,31 @@ var _setupRenderer = (0, _renderer.setupRenderer)("threeContainer"),
     scene = _setupRenderer.scene,
     camera = _setupRenderer.camera;
 
+var bodyParts = ["nose", "leftShoulder", "rightShoulder", "leftElbow", "rightElbow", "leftWrist", "rightWrist", "leftHip", "rightHip", "leftKnee", "rightKnee", "leftAnkle", "rightAnkle"];
 var group = new THREE.Group();
 scene.add(group);
-var trackers = [];
-
-for (var i = 0; i < 17; i++) {
-  var tracker = new _person.Person(group);
+var trackers2 = {
+  nose: {},
+  leftShoulder: {},
+  rightShoulder: {},
+  leftElbow: {},
+  rightElbow: {},
+  leftWrist: {},
+  rightWrist: {},
+  leftHip: {},
+  rightHip: {},
+  leftKnee: {},
+  rightKnee: {},
+  leftAnkle: {},
+  rightAnkle: {}
+};
+bodyParts.forEach(function (item) {
+  var tracker = new _entity.Entity(group, item);
   tracker.initialise();
+  tracker.update(_init_pose.default[item].x, _init_pose.default[item].y, 0);
   tracker.display();
-  trackers.push(tracker);
-} // main render loop
-
+  trackers2[item] = tracker;
+}); // main render loop
 
 function main() {
   return _main.apply(this, arguments);
@@ -331,9 +418,11 @@ function _main() {
             poses = _context.sent;
 
             if (poses.score > 0.8) {
-              poses.keypoints.forEach(function (d, i) {
-                trackers[i].update(d.position.x * 1, d.position.y * 1, 0);
-                trackers[i].display();
+              poses.keypoints.filter(function (item) {
+                return bodyParts.includes(item.part);
+              }).forEach(function (d, i) {
+                trackers2[d.part].update(d.position.x * 1, d.position.y * 1, 0);
+                trackers2[d.part].display();
               });
             }
 
@@ -351,7 +440,7 @@ function _main() {
 }
 
 main();
-},{"./camera":"camera.js","./renderer":"renderer.js","./person":"person.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./camera":"camera.js","./renderer":"renderer.js","./entity":"entity.js","../init_pose.json":"../init_pose.json"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -379,7 +468,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54709" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50222" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
