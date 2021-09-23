@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "parcel client/index.html",
+    "build:client": "parcel build client/index.html --out-dir build",
     "server": "parcel server/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
